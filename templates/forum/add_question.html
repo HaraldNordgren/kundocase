@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+    Add question
+{% endblock %}
+{% block body %}
+    <form id="question_form" method="post">
+        {% csrf_token %}
+        Title:<br>
+        <input type="text" name="title"><br>
+        User name:<br>
+        <input type="text" name="username"><br>
+        User email:<br>
+        <input type="email" name="email">
+        <input type="submit" value="Submit">
+    </form>
+    <textarea form="question_form" name="content">hej</textarea>
+{% endblock %}

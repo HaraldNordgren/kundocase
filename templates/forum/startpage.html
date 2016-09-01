@@ -9,4 +9,6 @@
             <li><a href="{% url "question" id=question.id %}">{{ question.title }}</a></li>
         {% endfor %}
     </ul>
+
+    <a href="/add_question">Add question</a>
 {% endblock %}
