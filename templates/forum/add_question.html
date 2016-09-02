@@ -5,13 +5,8 @@
 {% block body %}
     <form id="question_form" method="post">
         {% csrf_token %}
-        Title:<br>
-        <input type="text" name="title"><br>
-        User name:<br>
-        <input type="text" name="username"><br>
-        User email:<br>
-        <input type="email" name="email">
+        {{ form.as_p }}
         <input type="submit" value="Submit">
     </form>
-    <textarea form="question_form" name="content">hej</textarea>
+
 {% endblock %}

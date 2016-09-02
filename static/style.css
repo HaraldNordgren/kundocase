@@ -1,1 +1,4 @@
-/* Eventual css rules can be placed here */
+#question_form label:after {
+    content:"\a";
+    white-space: pre;
+}
