@@ -5,7 +5,15 @@
 {% block body %}
     <form id="question_form" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+        <div>
+            {{ field.label_tag }}
+            <br>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        <br>
+        {% endfor %}
         <input type="submit" value="Submit">
     </form>
 

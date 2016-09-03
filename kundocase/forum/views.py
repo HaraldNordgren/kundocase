@@ -5,7 +5,7 @@ from kundocase.forum.models import Question
 from kundocase.forum.forms import QuestionForm
 
 def startpage(request):
-    questions = Question.objects.all().order_by("-created")
+    questions = Question.objects.all().order_by("created")
     return render(request, "forum/startpage.html", {
         "questions": questions,
     })
@@ -19,6 +19,7 @@ def add_question(request):
     elif request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
+            form.save()
             return HttpResponseRedirect("/")
 
     return render(request, 'forum/add_question.html', {'form': form})
