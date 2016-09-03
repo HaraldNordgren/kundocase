@@ -8,9 +8,27 @@
     <p>{{ question.content }}</p>
     <p>By: <strong>{{ question.user_name }}</strong>, {{ question.user_email }}</p>
 
-    <h2>Answers</h2>
-    {% for answer in answers %}
-        <p>{{ answer.content }}</p>
-        <p>By: <strong>{{ answer.user_name }}</strong>, {{ answer.user_email }}</p>
-    {% endfor %}
+    {% if answers %}
+        <h2>Answers</h2>
+        {% for answer in answers %}
+            <p>{{ answer.content }}</p>
+            <p>By: <strong>{{ answer.user_name }}</strong>, {{ answer.user_email }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <h2>Add answer</h2>
+    <form id="answer_form" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            {{ field.label_tag }}
+            <br>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        <br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+
 {% endblock %}
