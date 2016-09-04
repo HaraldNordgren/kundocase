@@ -3,6 +3,7 @@
     Add question
 {% endblock %}
 {% block body %}
+    <h1>New question</h1>
     <form id="question_form" method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -16,5 +17,9 @@
         {% endfor %}
         <input type="submit" value="Submit">
     </form>
+
+    {% if spam %}
+        <script>alert("We believe this is spam!");</script>
+    {% endif %}
 
 {% endblock %}
