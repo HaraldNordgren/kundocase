@@ -5,6 +5,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r"^api/v1/", include("kundocase.api.v1.urls")),
     url(r"^", include("kundocase.forum.urls")),
 ]
 

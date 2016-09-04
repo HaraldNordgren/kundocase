@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 
-from .models import Question, Answer
+from .models import Question
 from .forms import QuestionForm, AnswerForm
 from .spamcheck import spamcheck_question, spamcheck_answer
 from .utils import dict_to_dot_notation
