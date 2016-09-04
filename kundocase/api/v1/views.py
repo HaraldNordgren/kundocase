@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import get_object_or_404
 from django.core import serializers
-from django.http import JsonResponse, Http404, HttpResponseBadRequest, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 
 from kundocase.forum.models import Question, Answer
@@ -12,7 +12,10 @@ from kundocase.forum.models import Question, Answer
 def questions(request, question_id=None):
     if request.method == 'GET':
         if question_id:
-            question = get_object_or_404(Question, id=question_id)
+            try:
+                question = Question.objects.get(id=question_id)
+            except Question.DoesNotExist:
+                return HttpResponse(status=404)
             raw_data = serializers.serialize('python', [question])[0]
             return JsonResponse(raw_data['fields'])
         else:
@@ -22,8 +25,13 @@ def questions(request, question_id=None):
 
     elif request.method == 'PUT':
         if question_id:
-            return Http404
-        data = json.loads(request.body)
+            return HttpResponse(status=404)
+
+        try:
+            data = json.loads(request.body)
+        except ValueError:
+            return HttpResponseBadRequest("Request body is incorrect JSON")
+
         new_question = {}
         for field in Question._meta.get_all_field_names():
             if field in ['id', 'created', 'answer']:
@@ -37,7 +45,7 @@ def questions(request, question_id=None):
         Question.objects.create(**new_question)
         return HttpResponse(status=200)
 
-    return Http404
+    return HttpResponse(status=404)
 
 
 @csrf_exempt
@@ -57,7 +65,7 @@ def answers(request, question_id, answer_id=None):
 
     elif request.method == 'PUT':
         if answer_id:
-            return Http404
+            return HttpResponse(status=404)
         data = json.loads(request.body)
         new_answer = {}
         for field in Answer._meta.get_all_field_names():
@@ -72,4 +80,4 @@ def answers(request, question_id, answer_id=None):
         Answer.objects.create(question=question, **new_answer)
         return HttpResponse(status=200)
 
-    return Http404
+    return HttpResponse(status=404)
