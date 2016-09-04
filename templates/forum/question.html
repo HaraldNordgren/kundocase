@@ -19,8 +19,11 @@
         {% endfor %}
     {% endif %}
 
-    <h2>Add answer</h2>
-    <form id="answer_form" method="post">
+    <h2 onclick="toggleAnswerBox();" style="cursor: pointer;">Add answer</h2>
+    <form id="answer_form" method="post"
+    {% if not editing_mode %}
+        style="display: none;"
+    {% endif %}>
         {% csrf_token %}
         {% for field in form %}
         <div>
@@ -35,7 +38,7 @@
         {% if editing_mode %}
             <input type="submit" value="Edit answer">
             <from method="link" action="/{{ question.id }}">
-                <input type="submit" value="Start new answer">
+                <input type="submit" value="Cancel">
             </from>
         {% else %}
             <input type="submit" value="Submit">
