@@ -97,7 +97,6 @@ class AnswerTestCase(TestCase):
         Answer.objects.create(content="Some more content", user_name="Harry",
                                 user_email="haraldnordgren@gmail.com", question=q1)
 
-
     def test_get_all_answers_for_question(self):
         request = self.factory.get('/api/v1/questions/1/answers')
         response = views.answers(request, 1)
@@ -109,6 +108,12 @@ class AnswerTestCase(TestCase):
         response = views.answers(request, 1, 2)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.content)['user_name'], "Harry")
+
+    def test_get_empty_answers_for_question(self):
+        request = self.factory.get('/api/v1/questions/2/answers')
+        response = views.answers(request, 2)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), [])
 
     def test_get_non_existing_answer(self):
         request = self.factory.get('/api/v1/questions/1/answers/8000')
@@ -137,7 +142,7 @@ class AnswerTestCase(TestCase):
 
     def test_non_string_data(self):
         data = json.dumps({
-            "content": ["Eerer erwerwe ewrewre"],
+            "content": ["Lorem ipsum dolor sit amet"],
             "user_name": "Harald",
             "user_email": "hej@example.com",
         })
@@ -147,7 +152,7 @@ class AnswerTestCase(TestCase):
 
     def test_submit_successfully(self):
         data = json.dumps({
-            "content": "Eerer erwerwe ewrewre",
+            "content": "Lorem ipsum dolor sit amet",
             "user_name": "Harald",
             "user_email": "hej@example.com",
         })

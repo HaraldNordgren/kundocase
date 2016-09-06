@@ -10,3 +10,11 @@ body {
 textarea {
     resize: none;
 }
+
+.smaller-font {
+    font-size: 85%;
+}
+
+.no-bottom-margin {
+    margin-bottom: 0;
+}

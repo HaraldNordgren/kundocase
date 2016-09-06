@@ -4,26 +4,29 @@
 {% endblock %}
 {% block body %}
     <a href="/">&laquo; To startpage</a>
-    <h1>Question: {{ question.title }}</h1>
+    <h1 class="no-bottom-margin">Question: {{ question.title }}</h1>
     <p>{{ question.content }}</p>
-    <p>By: <strong>{{ question.user_name }}</strong>, {{ question.user_email }}</p>
+    <p class="smaller-font">
+        By: <strong>{{ question.user_name }}</strong>, {{ question.user_email }}
+    </p>
 
     {% if answers %}
-        <h2>Answers</h2>
+        <h2 class="no-bottom-margin">Answers</h2>
         {% for answer in answers %}
             <p>{{ answer.content }}</p>
-            <p style="margin-bottom: 30px;">
+            <p style="margin-bottom: 30px;" class="smaller-font">
                 By: <strong>{{ answer.user_name }}</strong>, {{ answer.user_email }}
                 <a href="/{{ question.id }}/{{ answer.id }}">Edit answer</a>
             </p>
         {% endfor %}
     {% endif %}
 
-    <h2 onclick="toggleAnswerBox();" style="cursor: pointer;">Add answer</h2>
-    <form id="answer_form" method="post"
-    {% if not editing_mode %}
-        style="display: none;"
-    {% endif %}>
+    {% if editing_mode %}
+        <h2>Edit answer</h2>
+    {% else %}
+        <h2>Add new answer</h2>
+    {% endif %}
+        <form id="answer_form" method="post">
         {% csrf_token %}
         {% for field in form %}
         <div>
@@ -35,13 +38,11 @@
         <br>
         {% endfor %}
 
+        <input type="submit" value="Submit">
         {% if editing_mode %}
-            <input type="submit" value="Edit answer">
             <from method="link" action="/{{ question.id }}">
                 <input type="submit" value="Cancel">
             </from>
-        {% else %}
-            <input type="submit" value="Submit">
         {% endif %}
     </form>
 

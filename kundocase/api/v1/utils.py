@@ -28,7 +28,7 @@ def put_json(question_or_answer_id, body, model, excluded_fields, parent_questio
     except ValueError:
         return HttpResponseBadRequest("Request body is incorrect JSON")
 
-    new_question_or_answer = {}
+    new_data = {}
     for field in model._meta.get_all_field_names():
         if field in excluded_fields:
             continue
@@ -36,11 +36,11 @@ def put_json(question_or_answer_id, body, model, excluded_fields, parent_questio
             return HttpResponseBadRequest("Request is missing '%s' field" % field)
         if not isinstance(data[field], basestring):
             return HttpResponseBadRequest("Values need to be string type")
-        new_question_or_answer[field] = data[field]
+        new_data[field] = data[field]
 
     if parent_question:
-        model.objects.create(question=parent_question, **new_question_or_answer)
+        model.objects.create(question=parent_question, **new_data)
     else:
-        model.objects.create(**new_question_or_answer)
+        model.objects.create(**new_data)
 
     return HttpResponse(status=200)
