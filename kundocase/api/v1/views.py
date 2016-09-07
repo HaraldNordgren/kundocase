@@ -13,7 +13,7 @@ def questions(request, question_id=None):
     elif request.method == 'PUT':
         return put_json(question_id, request.body, Question, ['id', 'created', 'answer'])
 
-    return HttpResponse(status=404)
+    return HttpResponse(status=405)
 
 
 @csrf_exempt
@@ -30,4 +30,4 @@ def answers(request, question_id, answer_id=None):
         return put_json(answer_id, request.body, Answer,
                         ['id', 'created', 'question', 'question_id'], question)
 
-    return HttpResponse(status=404)
+    return HttpResponse(status=405)

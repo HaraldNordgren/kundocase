@@ -74,12 +74,12 @@ class QuestionTestCase(TestCase):
         })
         request = self.factory.put('/api/v1/questions/', data=data)
         response = views.questions(request)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
     def test_unsupported_request_type(self):
         request = self.factory.delete('/api/v1/questions/')
         response = views.questions(request)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 405)
 
 
 class AnswerTestCase(TestCase):
@@ -158,9 +158,9 @@ class AnswerTestCase(TestCase):
         })
         request = self.factory.put('/api/v1/questions/1/answers', data=data)
         response = views.answers(request, 1)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
     def test_unsupported_request_type(self):
         request = self.factory.delete('/api/v1/questions/1/answers')
         response = views.answers(request, 1)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 405)

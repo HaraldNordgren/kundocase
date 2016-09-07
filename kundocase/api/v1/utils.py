@@ -43,4 +43,4 @@ def put_json(question_or_answer_id, body, model, excluded_fields, parent_questio
     else:
         model.objects.create(**new_data)
 
-    return HttpResponse(status=200)
+    return HttpResponse(status=201)
