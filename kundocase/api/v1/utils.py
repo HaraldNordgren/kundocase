@@ -4,10 +4,10 @@ from django.core import serializers
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 
 
-def get_json(question_or_answer_id, model, objects):
-    if question_or_answer_id:
+def get_json(asset_id, model, objects):
+    if asset_id:
         try:
-            question_or_answer = objects.get(id=question_or_answer_id)
+            question_or_answer = objects.get(id=asset_id)
         except model.DoesNotExist:
             return HttpResponse(status=404)
 
@@ -15,14 +15,11 @@ def get_json(question_or_answer_id, model, objects):
         return JsonResponse(raw_data['fields'])
     else:
         raw_data = serializers.serialize('python', objects.all().order_by("created"))
-        actual_data = [question['fields'] for question in raw_data]
+        actual_data = [asset['fields'] for asset in raw_data]
         return JsonResponse(actual_data, safe=False)
 
 
-def put_json(question_or_answer_id, body, model, excluded_fields, parent_question=None):
-    if question_or_answer_id:
-        return HttpResponse(status=404)
-
+def put_json(asset_id, body, model, objects, excluded_fields, parent_question=None):
     try:
         data = json.loads(body)
     except ValueError:
@@ -39,8 +36,14 @@ def put_json(question_or_answer_id, body, model, excluded_fields, parent_questio
         new_data[field] = data[field]
 
     if parent_question:
-        model.objects.create(question=parent_question, **new_data)
+        new_data['question'] = parent_question
+
+    if asset_id:
+        row = objects.filter(id=asset_id)
+        if not row:
+            return HttpResponse(status=404)
+        row.update(**new_data)
+        return HttpResponse(status=200)
     else:
         model.objects.create(**new_data)
-
-    return HttpResponse(status=201)
+        return HttpResponse(status=201)

@@ -11,7 +11,8 @@ def questions(request, question_id=None):
         return get_json(question_id, Question, Question.objects)
 
     elif request.method == 'PUT':
-        return put_json(question_id, request.body, Question, ['id', 'created', 'answer'])
+        return put_json(question_id, request.body, Question, Question.objects,
+                        ['id', 'created', 'answer'])
 
     return HttpResponse(status=405)
 
@@ -27,7 +28,7 @@ def answers(request, question_id, answer_id=None):
         return get_json(answer_id, Answer, question.answer_set)
 
     elif request.method == 'PUT':
-        return put_json(answer_id, request.body, Answer,
+        return put_json(answer_id, request.body, Answer, question.answer_set,
                         ['id', 'created', 'question', 'question_id'], question)
 
     return HttpResponse(status=405)
