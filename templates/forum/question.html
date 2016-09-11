@@ -4,21 +4,23 @@
 {% endblock %}
 {% block body %}
     <a href="/">&laquo; To startpage</a>
-    <h1 class="no-bottom-margin">Question: {{ question.title }}</h1>
+    <h1 class="no-bottom-margin">{{ question.title }}</h1>
     <p>{{ question.content }}</p>
-    <p class="smaller-font">
+    <p class="smaller-font section-margin">
         By: <strong>{{ question.user_name }}</strong>, {{ question.user_email }}
     </p>
 
     {% if answers %}
-        <h2 class="no-bottom-margin">Answers</h2>
-        {% for answer in answers %}
-            <p>{{ answer.content }}</p>
-            <p style="margin-bottom: 30px;" class="smaller-font">
-                By: <strong>{{ answer.user_name }}</strong>, {{ answer.user_email }}
-                <a href="/{{ question.id }}/{{ answer.id }}">Edit answer</a>
-            </p>
-        {% endfor %}
+        <div class="section-margin">
+            <h2 class="no-bottom-margin">Answers</h2>
+            {% for answer in answers %}
+                <p class="no-bottom-margin">{{ answer.content }}</p>
+                <p style="margin-bottom: 22px;" class="smaller-font">
+                    By: <strong>{{ answer.user_name }}</strong>, {{ answer.user_email }}
+                    <a href="/{{ question.id }}/{{ answer.id }}">Edit answer</a>
+                </p>
+            {% endfor %}
+        </div>
     {% endif %}
 
     {% if editing_mode %}
@@ -26,7 +28,7 @@
     {% else %}
         <h2>Add new answer</h2>
     {% endif %}
-        <form id="answer_form" method="post">
+    <form id="answer_form" method="post">
         {% csrf_token %}
         {% for field in form %}
         <div>
@@ -40,9 +42,7 @@
 
         <input type="submit" value="Submit">
         {% if editing_mode %}
-            <from method="link" action="/{{ question.id }}">
-                <input type="submit" value="Cancel">
-            </from>
+            <input type="button" onclick="location.href='/{{ question.id }}';" value="Cancel">
         {% endif %}
     </form>
 
