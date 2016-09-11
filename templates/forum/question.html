@@ -10,18 +10,11 @@
         By: <strong>{{ question.user_name }}</strong>, {{ question.user_email }}
     </p>
 
-    {% if answers %}
-        <div class="section-margin">
-            <h2 class="no-bottom-margin">Answers</h2>
-            {% for answer in answers %}
-                <p class="no-bottom-margin">{{ answer.content }}</p>
-                <p style="margin-bottom: 22px;" class="smaller-font">
-                    By: <strong>{{ answer.user_name }}</strong>, {{ answer.user_email }}
-                    <a href="/{{ question.id }}/{{ answer.id }}">Edit answer</a>
-                </p>
-            {% endfor %}
-        </div>
-    {% endif %}
+    <div id=answers-div>
+        <script>
+            this.get_answers({{ question.id }});
+        </script>
+    </div>
 
     {% if editing_mode %}
         <h2>Edit answer</h2>
@@ -30,15 +23,22 @@
     {% endif %}
     <form id="answer_form" method="post">
         {% csrf_token %}
-        {% for field in form %}
+        <input type="hidden" name="question_id" value={{ question.id }}>
         <div>
-            {{ field.label_tag }}
+            <label for="content">Content:</label>
             <br>
-            {{ field }}
-            {{ field.errors }}
-        </div>
-        <br>
-        {% endfor %}
+            <textarea id="content" name="content" cols="40" rows="10" required>Hej</textarea>
+        </div><br>
+        <div>
+            <label for="user_name">User name:</label>
+            <br>
+            <input id="user_name" name="user_name" maxlength="255" type="text" value=hej required>
+        </div><br>
+        <div>
+            <label for="user_email">User email:</label>
+            <br>
+            <input id="user_email" name="user_email" maxlength="255" type="email" value=hej@nej.com required>
+        </div><br>
 
         <input type="submit" value="Submit">
         {% if editing_mode %}
@@ -51,4 +51,3 @@
     {% endif %}
 
 {% endblock %}
-

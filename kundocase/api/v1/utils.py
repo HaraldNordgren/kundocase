@@ -12,14 +12,25 @@ def get_json(asset_id, model, objects):
             return HttpResponse(status=404)
 
         raw_data = serializers.serialize('python', [question_or_answer])[0]
-        return JsonResponse(raw_data['fields'])
+        return_data = raw_data['fields']
+        return_data['id'] = raw_data['pk']
+        #raw_data['id'] = asset_id
+        return JsonResponse(return_data)
     else:
         raw_data = serializers.serialize('python', objects.all().order_by("created"))
-        actual_data = [asset['fields'] for asset in raw_data]
-        return JsonResponse(actual_data, safe=False)
+        return_data = []
+        for asset in raw_data:
+            print asset
+            element = asset['fields']
+            element['id'] = asset['pk']
+            return_data.append(element)
+        return JsonResponse(return_data, safe=False)
 
 
 def put_json(asset_id, body, model, objects, excluded_fields, parent_question=None):
+    if not body:
+        return HttpResponseBadRequest("Request body is empty")
+
     try:
         data = json.loads(body)
     except ValueError:
