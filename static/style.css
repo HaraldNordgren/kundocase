@@ -18,8 +18,9 @@ textarea {
     margin-bottom: 30px;
 }
 
-#footer {
-    bottom: 0;
+#answer-box {
+    /*bottom: 0;*/
+    bottom: -347px;
     right: 5px;
     position: fixed;
     /*background-color: #f9f9f9;*/
@@ -27,4 +28,9 @@ textarea {
     /*overflow: auto;*/
     padding: 5px;
     float: right;
+}
+
+#editing-header {
+    margin-bottom: 20px;
+    margin-top: 4px;
 }

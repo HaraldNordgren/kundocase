@@ -15,6 +15,12 @@ function edit_answer(e, question_id, answer_id) {
                 document.getElementById(s).value = data[s];
             });
             document.getElementById('answer_id').value = answer_id;
+
+            answerBox = document.getElementById('answer-box');
+            if (answerBox.hasAttribute('collapsed')) {
+                answerBox.removeAttribute('collapsed');
+                answerBox.style.bottom = '0';
+            }
         }
     });
 }
@@ -72,6 +78,17 @@ function clear_form() {
         document.getElementById(s).value = "";
     });
     document.getElementById('answer_id').value = "";
+}
+
+function toggle_answer_box() {
+    answerBox = document.getElementById('answer-box');
+    if (answerBox.hasAttribute('collapsed')) {
+        answerBox.removeAttribute('collapsed');
+        answerBox.style.bottom = '0';
+    } else {
+        answerBox.setAttribute('collapsed', '');
+        answerBox.style.bottom = '-347px';
+    }
 }
 
 $(document).ready(function() {

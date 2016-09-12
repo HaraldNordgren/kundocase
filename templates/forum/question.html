@@ -16,12 +16,8 @@
         </script>
     </div>
 
-    <div id="footer">
-        {% if editing_mode %}
-            <h2 id="editing-header">Edit answer</h2>
-        {% else %}
-            <h2 id="editing-header">Add new answer</h2>
-        {% endif %}
+    <div id="answer-box" collapsed>
+        <h2 id="editing-header" onclick="toggle_answer_box();">Add new answer</h2>
         <form id="answer_form" method="post">
             {% csrf_token %}
             <input type="hidden" id="question_id" name="question_id" value={{ question.id }}>
