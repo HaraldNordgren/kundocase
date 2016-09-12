@@ -17,3 +17,14 @@ textarea {
 .section-margin {
     margin-bottom: 30px;
 }
+
+#footer {
+    bottom: 0;
+    right: 5px;
+    position: fixed;
+    /*background-color: #f9f9f9;*/
+    background-color: grey;
+    /*overflow: auto;*/
+    padding: 5px;
+    float: right;
+}

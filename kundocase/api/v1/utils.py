@@ -14,13 +14,11 @@ def get_json(asset_id, model, objects):
         raw_data = serializers.serialize('python', [question_or_answer])[0]
         return_data = raw_data['fields']
         return_data['id'] = raw_data['pk']
-        #raw_data['id'] = asset_id
         return JsonResponse(return_data)
     else:
         raw_data = serializers.serialize('python', objects.all().order_by("created"))
         return_data = []
         for asset in raw_data:
-            print asset
             element = asset['fields']
             element['id'] = asset['pk']
             return_data.append(element)

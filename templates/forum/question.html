@@ -16,35 +16,36 @@
         </script>
     </div>
 
-    {% if editing_mode %}
-        <h2>Edit answer</h2>
-    {% else %}
-        <h2>Add new answer</h2>
-    {% endif %}
-    <form id="answer_form" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="question_id" value={{ question.id }}>
-        <div>
-            <label for="content">Content:</label>
-            <br>
-            <textarea id="content" name="content" cols="40" rows="10" required>Hej</textarea>
-        </div><br>
-        <div>
-            <label for="user_name">User name:</label>
-            <br>
-            <input id="user_name" name="user_name" maxlength="255" type="text" value=hej required>
-        </div><br>
-        <div>
-            <label for="user_email">User email:</label>
-            <br>
-            <input id="user_email" name="user_email" maxlength="255" type="email" value=hej@nej.com required>
-        </div><br>
-
-        <input type="submit" value="Submit">
+    <div id="footer">
         {% if editing_mode %}
-            <input type="button" onclick="location.href='/{{ question.id }}';" value="Cancel">
+            <h2 id="editing-header">Edit answer</h2>
+        {% else %}
+            <h2 id="editing-header">Add new answer</h2>
         {% endif %}
-    </form>
+        <form id="answer_form" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="question_id" name="question_id" value={{ question.id }}>
+            <input type="hidden" id="answer_id" name="answer_id">
+            <div>
+                <label for="content">Content:</label>
+                <br>
+                <textarea id="content" name="content" cols="40" rows="10" required></textarea>
+            </div><br>
+            <div>
+                <label for="user_name">User name:</label>
+                <br>
+                <input id="user_name" name="user_name" maxlength="255" type="text" required>
+            </div><br>
+            <div>
+                <label for="user_email">User email:</label>
+                <br>
+                <input id="user_email" name="user_email" maxlength="255" type="email" required>
+            </div><br>
+
+            <input type="submit" value="Submit">
+            <input type="button" onclick="clear_form();" value="Clear">
+        </form>
+    </div>
 
     {% if spam %}
         <script>alert("We believe this is spam!");</script>
